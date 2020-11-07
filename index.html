@@ -1,0 +1,251 @@
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="./jquery-3.5.1.js"></script>
+<link rel="stylesheet" href="StyleSheet.css">
+</head>
+<body>
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Online Movie Store</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+
+          <li class="nav-item">
+            <a class="nav-link" onclick="home()">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="nowPlaying()">Now Playing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="topRated()">Top Rated</a>
+          </li>
+          <select style="border:0 solid gray" class="nav-link bg-dark nav-link dropdown-toggle" aria-labelledby="navbarDropdown" onchange="CallGenre()" id="sel">
+            <option class="dropdown-item text-white" value="27">Genre</option>
+            <option class="dropdown-item text-white" value="12">adventure</option>
+            <option class="dropdown-item text-white" value="16">animation</option>
+            <option class="dropdown-item text-white" value="35">comedy</option>
+            <option class="dropdown-item text-white" value="80">crime</option>
+            <option class="dropdown-item text-white" value="18">drama</option>
+            <option class="dropdown-item text-white" value="10751">family</option>
+            <option class="dropdown-item text-white" value="14">fantasy</option>
+            <option class="dropdown-item text-white" value="36">history</option>
+            <option class="dropdown-item text-white" value="27">horror</option>
+            <option class="dropdown-item text-white" value="10402">music</option>
+            <option class="dropdown-item text-white" value="10749">romance</option>
+            <option class="dropdown-item text-white" value="878">science fiction</option>
+            <option class="dropdown-item text-white" value="53">thriller</option>
+         </select>
+        
+         
+        </ul>
+          <input class="form-control mr-sm-2 col-4" id="searchtxt" type="text" placeholder="Search" aria-label="Search">
+          <button onclick="searchMovie()" class="btn btn-outline-success my-2 my-sm-0" >Search</button>
+        </form>
+      </div>
+    </nav>
+   
+    <div class="text-white h6 m-5 p-5 text-center" id="intro">
+      <h1 class="text-success" style="font-size:100px">Online Movie Store</h1>
+      <br>
+      <br>
+      The online Movie Store website is a crucial resource for any type of digital video media(Movies).all are cataloged with credits to the cast and studio help. IMDb is probably the oldest resource for learning about your favorite movies.
+  
+</div>
+
+<div  class="alldisplay"></div>
+<div class="mypanel"></div>
+<ul id="ex"></ul>
+
+<script>
+  var Actors;
+  var Director;
+  var Title;
+  var Genre;
+  var imdbID;
+  var imdbRating;
+  var Year;
+  var Plot;
+  var Poster;
+  var Released;
+  var Writer;
+  var Language;
+  var apiBaseURL = 'http://api.themoviedb.org/3/';
+  var omdbApi="216b1cae";
+  var omdbUri="http://www.omdbapi.com/";
+  var imageBaseUrl = 'https://image.tmdb.org/t/p/';
+  var apikey="dd04127d0f8a7fa8a39bed065a39ca59";
+   $( document ).ready(function() {
+     
+   
+
+//   $.getJSON('https://api.themoviedb.org/3/movie/550?api_key=dd04127d0f8a7fa8a39bed065a39ca59', function(data) {
+
+//    console.log(data);
+//   });
+//    $.getJSON('https://api.themoviedb.org/4/list/3?page=1&api_key='+apikey+'', function(data) {
+//       console.log(data);
+//       data=data["results"];
+//    //    $.each(data,(val,index)=>{
+//    //      // console.log(index);
+//    //      //$('#ex').append('<li>'+index["title"]+'</li>');
+//    //      //$('#ex').append('<li><img src="'+imageBaseUrl+'w200'+index["poster_path"]+'"></li>');
+//    //   });
+//      //28 = action
+// 					//12 = adventure
+// 					//16 = animation
+// 					//35 = comedy
+// 					//80 = crime
+// 					//18 = drama
+// 					//10751 = family
+// 					//14 = fantasy
+// 					//36 = history
+// 					//27 = horror
+// 					//10402 = music
+// 					//10749 = romance
+// 					//878 = science fiction
+// 					//53 = thriller
+ 
+
+
+// });
+
+// var mid=0;
+// $.getJSON(apiBaseURL+'movie/'+mid+'/videos?api_key=' + apiKey, function(dat) {
+//       console.log(dat+$("#sel").val());
+//       data=dat["results"];
+//       $.each(data,(val,index)=>{
+//          console.log(index);
+//         $('#ex').append('<li>'+index["title"]+'</li>');
+//         $('#ex').append('<li><img src="'+imageBaseUrl+'w200'+index["poster_path"]+'"></li>');
+//         });
+//       });
+$.disp=function(apilink){
+$('#ex').html("");
+$("#intro").hide();
+$(".alldisplay").hide();
+$(".alldisplay").html("")
+console.log("1bro");
+$.ajax({
+    method: 'GET',
+    contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+    url: apilink,
+   
+    success: function (result) {
+       
+        // console.log(result);
+               result=result["results"];
+       $.each(result,(val,index)=>{
+        $.ajax({
+    method: 'GET',
+    url: omdbUri+"?t="+index["title"]+"&apikey="+omdbApi,
+ 
+    success: function (da) {
+     
+       if(da["Poster"]!=undefined && da["Title"]!=undefined)
+       $('#ex').append('<li><div class="bro card mt-3 mb-2" style="width: 15rem;height:17rem;"><img style="width: 14.9rem;height:17rem;" class="card-img-top" src="'+da["Poster"]+'" alt="Card image cap"><div class="bro card-body bg-dark"><h5 class="card-title text-white">'+da["Title"]+'</h5><button id="'+da["imdbID"]+'" onclick="MovieDetail(this)" class="btn btn-primary">View Details</button></div></li>');
+       
+       else if(da["Poster"]==undefined && index["poster-path"]!=undefined)
+       $('#ex').append('<li><div class="bro card mt-5" style="width: 15rem;height:17rem;"><img style="width: 14.9rem;height:17rem;" class="card-img-top" src="'+index["poster_path"]+'" alt="Card image cap"><div class="bro card-body bg-dark"><h5 class="card-title text-white">'+da["Title"]+'</h5><button id="'+da["imdbID"]+'" onclick="MovieDetail(this)" class="btn btn-primary">View Details</button></div></li>');
+    
+
+        
+      
+    },
+          error:function(err){
+            $("#ex").html('<h1 class="text-danger m-5 p-5 text-center" style="font-size:50px">No Result Found</h1>');
+          }
+        });
+});
+      
+    },
+          error:function(err){
+            $("#ex").html('<h1 class="text-danger m-5 p-5 text-center" style="font-size:50px">No Result Found</h1>');
+          }
+
+});
+}
+
+$.showDelails=function(id){
+  $('#ex').html("");
+  $("#intro").hide();
+  $(".mypanel").hide();
+  $(".alldisplay").show();
+  $(".alldisplay").css({"height": "100%","width": "100%"});
+ 
+  $.ajax({
+    method: 'GET',
+    url: omdbUri+"?i="+id+"&apikey="+omdbApi,
+ 
+    success: function (da) {
+      $(".alldisplay").html('<div class="mainM"><img src="'+da["Poster"]+'"><ul><li style="font-weight: bold;font-size: 2em;margin-left: 15em;"><label>Title : </label> '+da["Title"]+'</li><li><label class="lab">Plot : </label> '+da["Plot"]+'</li><li><label class="lab">Actors : </label> '+da["Actors"]+'</li><li><label class="lab">Director : </label> '+da["Director"]+'</li><li><label class="lab">Writer : </label> '+da["Writer"]+'</li><li><label class="lab">Genre : </label> '+da["Genre"]+'</li><li><label class="lab">IMDB Rating : </label> '+da["imdbRating"]+'</li><li><label class="lab">Released Date : </label> '+da["Released"]+'</li><li><label class="lab">Language : </label> '+da["Language"]+'</li><li  id="'+da["imdbID"]+'"><a target="_blanck" href="http://imdb.com/title/'+da["imdbID"]+'" class="btn btn-light text-dark bro">Watch Movie</a></li></ul></div>');      
+    },
+          error:function(err){
+            $("#ex").html('<h1 class="text-danger m-5 p-5 text-center" style="font-size:50px">No Result Found</h1>');
+          }
+        });
+     
+
+}
+$.homepage=function(){
+  $(".alldisplay").hide();
+  $("#intro").show();
+  $(".alldisplay").html("");
+
+  $('#ex').html("");
+}
+$.searchmovie=()=>{
+  $(".alldisplay").hide();
+  $("#intro").hide();
+  $(".alldisplay").html("");
+  $.ajax({
+    method: 'GET',
+    url: omdbUri+"?t="+$("#searchtxt").val()+"&apikey="+omdbApi,
+ 
+    success: function (da) {
+      
+       if(da["Poster"]!=undefined && da["Title"]!=undefined)
+       $('#ex').html('<li><div class="bro card mt-5" style="width: 15rem;height:17rem;"><img style="width: 14.9rem;height:17rem;" class="card-img-top" src="'+da["Poster"]+'" alt="Card image cap"><div class="bro card-body bg-dark"><h5 class="card-title text-white">'+da["Title"]+'</h5><button id="'+da["imdbID"]+'" onclick="MovieDetail(this)" class="btn btn-primary">View Details</button></div></li>');
+       $("#searchtxt").val("");
+          },
+          error:function(err){
+            $("#ex").html('<h1 class="text-danger m-5 p-5 text-center" style="font-size:50px">No Result Found</h1>');
+          }
+        });
+};
+   });
+   function CallGenre(){
+   $.disp('http://api.themoviedb.org/3/genre/'+$("#sel").val()+'/movies?api_key=dd04127d0f8a7fa8a39bed065a39ca59&language=en-US&include_adult=false&sort_by=created_at.asc');
+   
+}
+function nowPlaying(){
+   $.disp('https://api.themoviedb.org/3/movie/now_playing?api_key=dd04127d0f8a7fa8a39bed065a39ca59&language=en-US&page=1');
+   
+}
+function topRated(){
+   $.disp('https://api.themoviedb.org/3/movie/top_rated?api_key=dd04127d0f8a7fa8a39bed065a39ca59&language=en-US&page=2');
+   
+}
+function MovieDetail(id){
+  $.showDelails(id.getAttribute('id'));
+}
+function searchMovie(){
+  $.searchmovie();
+}
+function home(){
+  $.homepage();
+}
+
+</script>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

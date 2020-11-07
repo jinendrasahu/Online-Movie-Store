@@ -1,0 +1,42 @@
+body{
+    background-image: url("back.jpg");
+  }
+     #ex li{
+       float: left;
+       list-style: none;
+       margin:5em;
+       margin-left: 3em;
+       margin-right: 3em;
+     }
+     .bro{
+      box-shadow: 0 0 20px gray;
+    }
+    .mainM img {
+          float: left;
+          
+          margin: 4em;
+          border-radius: 10px;
+          box-shadow: 0 0 30px black;
+    }
+    .mainM ul{
+      padding: 1em;
+      margin-top: 2em;
+    }
+    .mainM{
+      color: white;
+      margin: auto;
+      height: 100%;
+     
+
+    }
+    
+    .mainM ul li{
+      font-size: larger;
+      margin-bottom: 0.5em;
+      color: white;
+      list-style: none;
+      margin-left: 25em;
+    }
+    .lab{
+      font-size: medium;
+    }
